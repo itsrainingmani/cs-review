@@ -1,7 +1,7 @@
 import sys
 
 
-def insertionSort(arr):
+def insertion_sort(arr):
 
     for j in range(1, len(arr)):
         key = arr[j]
@@ -13,7 +13,7 @@ def insertionSort(arr):
     return arr
 
 
-def insertionSortDescending(arr):
+def insertion_sort_descending(arr):
 
     for j in range(len(arr) - 2, -1, -1):
         key = arr[j]
@@ -27,8 +27,8 @@ def insertionSortDescending(arr):
 
 if __name__ == "__main__":
     arr = [5, 2, 4, 6, 1, 3]
-    # print(insertionSort(arr))
-    print(insertionSortDescending(arr))
+    # print(insertion_sort(arr))
+    print(insertion_sort_descending(arr))
 
     arr = [31, 41, 59, 26, 41, 58]
-    print(insertionSortDescending(arr))
+    print(insertion_sort_descending(arr))
