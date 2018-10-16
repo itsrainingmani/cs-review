@@ -60,19 +60,109 @@ class SinglyLL:
             print(n.value)
             n = n.next
 
+    def reverseTraverse(self):
+        # First check if the tail exists
+        if self.tail != None:
+            # now set the current node to be the tail
+            curr = self.tail
+            # we forward traverse the list until we reach the node before the current node
+
+            # Since we move the current node back one link in each step, we check to see that it's not
+            # the head node yet
+            while curr != self.head:
+                prev = self.head
+                while prev.next != curr:
+                    prev = prev.next
+                print(prev.next.value)
+                curr = prev
+            print(curr.value)
+
 
 class DoublyLL:
     def __init__(self, init_node=None):
+        if init_node:
+            # If we give an init node we check if it is an instance of the DoubleNode class
+            # If it is not, we raise a TypeError that can be handled by the calling code
+            if not isinstance(init_node, DoubleNode):
+                raise TypeError("Init node must be of type DoubleNode")
         self.head = init_node
         self.tail = init_node
 
     def __str__(self):
+        if not self.head:
+            return ""
         n = self.head
         s = str(n.value) + " <-> "
         while n.next:
             s += str(n.next.value) + " <-> "
             n = n.next
         return s
+
+    def insert(self, node):
+        if not isinstance(node, DoubleNode):
+            raise TypeError("Node must be of type DoubleNode")
+        if self.head == None:
+            self.head = node
+            self.tail = node
+        else:
+            node.prev = self.tail
+            self.tail.next = node
+            self.tail = node
+
+    def delete(self, value):
+        if self.head == None:
+            return False
+        if value == self.head.value:
+            if self.head == self.tail:
+                self.head = None
+                self.tail = None
+            else:
+                self.head = self.head.next
+                self.head.prev = None
+            return True
+        else:
+            n = self.head.next
+            while n != None and n.value != value:
+                n = n.next
+            if n == self.tail:
+                self.tail = self.tail.prev
+                self.tail.next = None
+                return True
+            elif n != None:
+                n.prev.next = n.next
+                n.next.prev = n.prev
+                return True
+            return False
+
+    def reverseTraverse(self):
+        n = self.tail
+        while n != None:
+            print(n.value)
+            n = n.prev
+
+    # Same as LL
+    def traverse(self):
+        n = self.head
+        while n != None:
+            print(n.value)
+            n = n.next
+
+    # Same as LL
+    def search(self, value):
+        n = self.head
+        while n and n.value != value:
+            n = n.next
+        return n != None
+
+
+class DoubleNode:
+    def __init__(self, val):
+        self.value = val
+        self.prev = None
+        self.next = None
+
+    def __str__(self):
+        return str(self.value)
 
 
 class Node:
@@ -85,15 +175,28 @@ class Node:
 
 
 if __name__ == "__main__":
-    ll = SinglyLL(Node(1))
-    ll.insert(Node(45))
-    ll.insert(Node(60))
-    ll.insert(Node(12))
-    print(ll.head, ll.tail)
-    print(ll)
+    try:
+        dll = DoublyLL(Node(3))
+    except TypeError:
+        dll = DoublyLL(DoubleNode(3))
+    # print(dll)
 
-    # print(ll.search(11))
+    dll.insert(DoubleNode(4))
+    dll.insert(DoubleNode(30))
+    dll.insert(DoubleNode(300))
+    # dll.reverseTraverse()
+    print(dll.delete(300))
+    print(dll)
+    # ll = SinglyLL(Node(1))
+    # ll.insert(Node(45))
+    # ll.insert(Node(60))
+    # ll.insert(Node(12))
+    # # print(ll.head, ll.tail)
+    # print(ll)
+
+    # # print(ll.search(11))
     # print(ll.delete(45))
 
-    ll.traverse()
+    # # ll.traverse()
+    # ll.reverseTraverse()
     # print(ll)
