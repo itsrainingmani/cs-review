@@ -7,7 +7,35 @@ class BSTree:
     def __str__(self):
         return str(self.value)
 
-    # def insert(self, node):
+
+def find_parent(root, value):
+    if value == root.value:
+        return None
+    if value < root.value:
+        if root.left == None:
+            return None
+        elif root.left.value == value:
+            return root
+        else:
+            return findParent(root.left, value)
+    else:
+        if root.right == None:
+            return None
+        elif root.right.value == value:
+            return root
+        else:
+            return findParent(root.right, value)
+
+
+def find_node(root, value):
+    if root == None:
+        return None
+    if root.value == value:
+        return root
+    elif value < root.value:
+        return findNode(root.left, value)
+    else:
+        return findNode(root.right, value)
 
 
 # Node-Left-Right
@@ -54,18 +82,25 @@ def bst_insert(root, ins_node):
             return
 
 
-def bst_search(root, node):
+def bst_contains(root, value):
     if root == None:
         print("Not Found")
         return
 
-    if node.value == root.value:
+    if value == root.value:
         print("Found")
         return
-    elif node.value < root.value:
-        bst_search(root.left, node)
-    elif node.value > root.value:
-        bst_search(root.right, node)
+    elif value < root.value:
+        bst_search(root.left, value)
+    elif value > root.value:
+        bst_search(root.right, value)
+
+def bst_remove(root, value):
+    node_to_remove = find_node(root, value)
+    if node_to_remove == None:
+        return False
+    parent = find_parent(root, value)
+    
 
 
 if __name__ == "__main__":
@@ -76,4 +111,8 @@ if __name__ == "__main__":
     bst_insert(root, BSTree(11))
     tree_inorder(root)
 
-    bst_search(root, BSTree(9))
+    print("\n")
+
+    print(findParent(root, findParent(root, 13).value).value)
+
+    # bst_contains(root, BSTree(11))
